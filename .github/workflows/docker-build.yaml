@@ -51,10 +51,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: "linux/amd64,linux/arm64"
-          sbom: false
-          provenance: true
           cache-from: type=gha
           cache-to: type=gha,mode=max        
+          build-args: |
+            key:with          
       
       #- name: Build and push Docker image on PR
       #  id: build-and-push-pr

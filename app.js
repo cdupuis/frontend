@@ -4,7 +4,8 @@ const app = express()
 const port = 3000
 
 
-
+if (true) 
+  console.log("test")
 
 
 

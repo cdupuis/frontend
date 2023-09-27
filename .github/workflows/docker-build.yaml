@@ -1,6 +1,6 @@
 name: docker-build
 
-on:
+on: 
   push:
     branches: ["main"]
     tags: ["v*.*.*"]

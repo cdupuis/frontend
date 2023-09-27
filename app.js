@@ -19,6 +19,13 @@ if (true)
 if (true) 
   console.log("test")
 
+
+function func(a) {
+  let i = 10;
+  return i + a;
+  i++; // Noncompliant: this is never executed
+}
+
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });

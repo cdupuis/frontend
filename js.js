@@ -7,3 +7,4 @@ function (req, res) {
 
   let data = fs.readFileSync(userFilename, { encoding: 'utf8', flag: 'r' }); // Noncompliant
 }
+ 

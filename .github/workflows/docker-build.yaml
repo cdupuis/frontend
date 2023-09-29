@@ -53,8 +53,8 @@ jobs:
           #platforms: "linux/amd64,linux/arm64"
           #cache-from: type=gha
           #cache-to: type=gha,mode=max        
-          sbom: true
-          provenance: true
+          sbom: false
+          provenance: false
           build-args: |
             key:with          
       

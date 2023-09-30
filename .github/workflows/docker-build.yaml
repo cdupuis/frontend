@@ -8,7 +8,7 @@ on:
     branches: ["main"]
 
 env:
-  IMAGE_NAME: christiandupuis299/scout-demo-service
+  IMAGE_NAME: christiandupuis299/frontend
   SHA: ${{ github.event.pull_request.head.sha || github.event.after }}
   DOCKERFILE_PATH: Dockerfile
 
@@ -36,6 +36,9 @@ jobs:
         uses: docker/metadata-action@v4.4.0
         with:
           images: ${{ env.IMAGE_NAME }}
+          tags: |
+             type=raw,latest
+             type=sha,prefix=,suffix=,format=short
           labels: |
             org.opencontainers.image.revision=${{ env.SHA }}
             com.docker.image.source.entrypoint=${{ env.DOCKERFILE_PATH }}
@@ -50,11 +53,11 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          #platforms: "linux/amd64,linux/arm64"
+          platforms: "linux/amd64,linux/arm64"
           #cache-from: type=gha
           #cache-to: type=gha,mode=max        
-          sbom: false
-          provenance: false
+          sbom: true
+          provenance: true
           build-args: |
             key:with          
       

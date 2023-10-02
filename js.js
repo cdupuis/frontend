@@ -8,3 +8,8 @@ function (req, res) {
   let data = fs.readFileSync(userFilename, { encoding: 'utf8', flag: 'r' }); // Noncompliant
 }
  
+
+
+const queryParams = new URLSearchParams(document.location.search);
+const redirectUrl = queryParams.get("url");
+document.location = redirectUrl; // Noncompliant

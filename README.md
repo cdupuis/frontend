@@ -1,4 +1,4 @@
-# Docker Scout demo service
+# Frontend
 
 A repository containing an application and Dockerfile to demonstrate the use of Docker Scout to analyze and remediate CVEs in a container image.
 

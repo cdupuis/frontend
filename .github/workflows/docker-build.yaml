@@ -45,7 +45,7 @@ jobs:
 
       - name: Build and push Docker image on push
         id: build-and-push
-        #if: ${{ github.event_name != 'pull_request_target' }}
+        if: ${{ github.event_name != 'pull_request_target' }}
         uses: docker/build-push-action@v4.0.0
         with:
           context: .
@@ -60,21 +60,34 @@ jobs:
         if: ${{ github.event_name != 'pull_request_target' }}
         uses: docker/scout-action@main
         with:
-          command: cves,policy
-          image: ${{ steps.meta.outputs.tags }}
-          platform: "linux/arm64"
+          command: cves
+          image: registry://${{ steps.meta.outputs.tags }}
+          platform: "linux/amd64"
           summary: true
           organization: christiandupuis299
+
+      - name: Build and push Docker image on PR
+        id: build-and-push-pr
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: docker/build-push-action@v4.0.0
+        with:
+          context: .
+          load: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: "linux/amd64"
+          sbom: false
+          provenance: false
       
       - name: Compare to deployed image
         if: ${{ github.event_name == 'pull_request_target' }}
         uses: docker/scout-action@main
         with:
-          command: compare
-          image: ${{ steps.meta.outputs.tags }}
+          command: policy,compare
+          image: local://${{ steps.meta.outputs.tags }}
           only-severities: critical,high
           to-stream: prod
-          platform: "linux/arm64"
+          platform: "linux/amd64"
           exit-code: true       
           summary: true
           organization: christiandupuis299

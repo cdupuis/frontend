@@ -76,15 +76,28 @@ jobs:
           sbom: false
           provenance: false
       
-      - name: Compare to deployed image
+      - name: Policy to deployed image
         if: ${{ github.event_name == 'pull_request_target' }}
         uses: docker/scout-action@main
         with:
-          command: policy,compare
+          command: policy
           image: local://${{ steps.meta.outputs.tags }}
           only-severities: critical,high
           to-env: prod
           platform: "linux/amd64"       
           summary: true
           organization: christiandupuis299
+
+      - name: Compare to deployed image
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: docker/scout-action@main
+        with:
+          command: compare
+          image: local://${{ steps.meta.outputs.tags }}
+          only-severities: critical,high
+          to-env: prod
+          platform: "linux/amd64"       
+          summary: true
+          organization: christiandupuis299  
+          exit-code: true
 

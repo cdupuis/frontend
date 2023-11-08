@@ -83,7 +83,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request_target' }}
         uses: docker/scout-action@main
         with:
-          command: policy,compare
+          command: push,policy,compare
           image: local://${{ steps.meta.outputs.tags }}
           only-severities: critical,high
           to-env: prod

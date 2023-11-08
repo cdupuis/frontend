@@ -36,9 +36,6 @@ jobs:
         uses: docker/metadata-action@v4.4.0
         with:
           images: ${{ env.IMAGE_NAME }}
-          tags: |
-             #type=raw,latest
-             type=sha,prefix=,suffix=,format=short
           labels: |
             org.opencontainers.image.revision=${{ env.SHA }}
             com.docker.image.source.entrypoint=${{ env.DOCKERFILE_PATH }}

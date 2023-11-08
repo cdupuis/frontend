@@ -86,9 +86,8 @@ jobs:
           command: policy,compare
           image: local://${{ steps.meta.outputs.tags }}
           only-severities: critical,high
-          to-stream: prod
-          platform: "linux/amd64"
-          exit-code: true       
+          to-env: prod
+          platform: "linux/amd64"       
           summary: true
           organization: christiandupuis299
 

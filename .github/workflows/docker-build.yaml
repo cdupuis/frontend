@@ -52,6 +52,8 @@ jobs:
           platforms: "linux/amd64,linux/arm64"
           attests: type=sbom,generator=docker/scout-sbom-indexer:1
           provenance: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           
       - name: Analyze image
         if: ${{ github.event_name != 'pull_request_target' }}

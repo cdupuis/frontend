@@ -50,7 +50,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: "linux/amd64,linux/arm64"
-          attests: type=sbom,generator=docker/scout-sbom-indexer:1
+          #attests: type=sbom,generator=docker/scout-sbom-indexer:1
+          sbom: false
           provenance: true
           cache-from: type=gha
           cache-to: type=gha,mode=max

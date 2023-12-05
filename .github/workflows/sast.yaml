@@ -25,7 +25,7 @@ jobs:
         with:
           dockerfile: ${ DOCKERFILE_PATH }
           format: sarif
-          output: hadolint.sarif.json
+          output-file: hadolint.sarif.json
           no-fail: true
 
       - name: Log into registry

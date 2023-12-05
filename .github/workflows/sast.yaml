@@ -53,10 +53,12 @@ jobs:
         uses: docker/scout-action@sarif
         with:
           command: sarif-upload
+          organization: christiandupuis299
+          sarif-file: megalinter-reports/megalinter-report.sarif
           
       - name: Upload SARIF results #2
         uses: docker/scout-action@sarif
         with:
           command: sarif-upload
           organization: christiandupuis299
-          sarif-file: megalinter-reports/megalinter-report.sarif
+          sarif-file: hadolint.sarif.json

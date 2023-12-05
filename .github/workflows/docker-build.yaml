@@ -30,11 +30,11 @@ jobs:
           
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v3
-        with:
-          version: "lab:latest"
-          driver: cloud
-          endpoint: "docker/ecosystem-bu"
-          install: true
+        #with:
+        #  version: "lab:latest"
+        #  driver: cloud
+        #  endpoint: "docker/ecosystem-bu"
+        #  install: true
 
       - name: Extract Docker metadata
         id: meta

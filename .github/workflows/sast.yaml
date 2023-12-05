@@ -12,7 +12,7 @@ env:
   DOCKERFILE_PATH: Dockerfile
 
 jobs:
-  build:
+  scan:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
 
       - uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: ${ DOCKERFILE_PATH }
+          dockerfile: ${{ DOCKERFILE_PATH }}
           format: sarif
           output-file: hadolint.sarif.json
           no-fail: true

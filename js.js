@@ -13,3 +13,5 @@ function (req, res) {
 const queryParams = new URLSearchParams(document.location.search);
 const redirectUrl = queryParams.get("url");
 document.location = redirectUrl; // Noncompliant
+
+const token = ghp_L8kaXvAddUivKc333333333333333331ZWZe

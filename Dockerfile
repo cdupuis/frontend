@@ -11,10 +11,7 @@ RUN apk add --no-cache \
 
 COPY package.json ./
 
-RUN  apk add --no-cache npm \
- && npm i --no-optional \
- && npm cache clean --force \
- && apk del npm
+RUN  apk add --no-cache npm && npm i --no-optional && npm cache clean --force && apk del npm
  
 COPY . /app
 

@@ -15,6 +15,9 @@ RUN  apk add --no-cache npm && npm i --no-optional && npm cache clean --force &&
  
 COPY . /app
 
+RUN adduser -D appuser
+USER appuser
+
 CMD ["node","/app/app.js"]
 
 EXPOSE 3000

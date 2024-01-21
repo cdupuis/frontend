@@ -7,7 +7,7 @@ ENV BLUEBIRD_WARNINGS=0 \
   SUPPRESS_NO_CONFIG_WARNING=true
 
 RUN apk add --no-cache \
-  nodejs
+  nodejs gdbm
 
 COPY package.json ./
 

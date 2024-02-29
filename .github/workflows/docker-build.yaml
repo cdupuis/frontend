@@ -76,7 +76,7 @@ jobs:
         uses: docker/scout-action@main
         with:
           command: policy
-          image: local://${{ steps.meta.outputs.tags }}
+          image: registry://${{ steps.meta.outputs.tags }}
           only-severities: critical,high
           to-env: prod
           platform: "linux/amd64"       
@@ -88,7 +88,7 @@ jobs:
         uses: docker/scout-action@main
         with:
           command: compare
-          image: local://${{ steps.meta.outputs.tags }}
+          image: registry://${{ steps.meta.outputs.tags }}
           only-severities: critical,high
           to-env: prod
           platform: "linux/amd64"       

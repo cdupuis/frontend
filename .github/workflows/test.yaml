@@ -38,5 +38,4 @@ jobs:
     steps:
       - name: Attach vex document
         run: |
-          # curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s --
           echo docker scout attestation add ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$(echo $SHA | head -c 7) --file .vex/docker-scout.vex.json --predicate-type https://openvex.dev/ns/v0.2.0

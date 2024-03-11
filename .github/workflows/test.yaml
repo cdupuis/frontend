@@ -27,6 +27,7 @@ env:
   DOCKERFILE_PATH: Dockerfile
   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
   PLATFORMS: "linux/386,linux/amd64,linux/arm64,linux/arm/v5,linux/arm/v7,linux/ppc64le,linux/riscv64,linux/s390x"
+  SHA: ${{ github.event.pull_request.head.sha || github.event.after }}
 
 jobs:
   build:
@@ -38,4 +39,4 @@ jobs:
     steps:
       - name: Attach vex document
         run: |
-          echo docker scout attestation add ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$(echo $SHA | head -c 7) --file .vex/docker-scout.vex.json --predicate-type https://openvex.dev/ns/v0.2.0
+          echo docker scout attestation add ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$(echo ${{ env.SHA}} | head -c 7) --file .vex/docker-scout.vex.json --predicate-type https://openvex.dev/ns/v0.2.0

@@ -61,6 +61,16 @@ jobs:
           #cache-from: type=gha
           #cache-to: type=gha,mode=max
           
+      - name: Create SBOM
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: docker/scout-action@v1
+        with:
+          command: sbom
+          image: registry://${{ steps.meta.outputs.tags }}
+          platform: "linux/amd64"
+          format: spdx
+          output: sbom.spdx.json
+      
       - name: Analyze image
         if: ${{ github.event_name != 'pull_request_target' }}
         uses: docker/scout-action@main

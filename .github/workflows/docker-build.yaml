@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Witness Run
-        uses: testifysec/witness-run-action@v1
+        uses: testifysec/witness-run-action@v0.1.5
         with:
           step: build
           enable-archivista: false

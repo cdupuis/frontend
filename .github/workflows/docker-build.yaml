@@ -28,6 +28,7 @@ jobs:
           enable-archivista: false
           enable-sigstore: false
           output: witness.json
+          command: ls -la
 
       - name: Checkout repository
         uses: actions/checkout@v3

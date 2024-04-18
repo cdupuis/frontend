@@ -12,11 +12,23 @@ env:
   SHA: ${{ github.event.pull_request.head.sha || github.event.after }}
   DOCKERFILE_PATH: Dockerfile
 
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Witness Run
+        uses: testifysec/witness-run-action@v1
+        with:
+          step: build
+          enable-archivista: false
+          enable-sigstore: false
+          output: witness.json
+
       - name: Checkout repository
         uses: actions/checkout@v3
         with:

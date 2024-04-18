@@ -21,19 +21,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.SHA }}
+
       - name: Witness Run
         uses: testifysec/witness-run-action@v0.1.5
         with:
           step: build
           enable-archivista: false
           enable-sigstore: false
-          output: witness.json
+          outfile: witness.json
           command: ls -la
-
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ env.SHA }}
 
       - name: Log into registry
         uses: docker/login-action@v3

@@ -23,22 +23,17 @@ jobs:
           ref: ${{ env.SHA }}
 
       - name: Log into registry
-        uses: docker/login-action@v3.0.0
+        uses: docker/login-action@v3
         with:
           username: christiandupuis299
           password: ${{ secrets.HUB_PAT }}
           
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v3
-        #with:
-        #  version: "lab:latest"
-        #  driver: cloud
-        #  endpoint: "docker/ecosystem-bu"
-        #  install: true
-
+        
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@v5.0.0
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.IMAGE_NAME }}
           labels: |
@@ -47,17 +42,21 @@ jobs:
 
       - name: Build and push Docker image on push
         id: build-and-push
-        #if: ${{ github.event_name != 'pull_request_target' }}
-        uses: docker/build-push-action@v5.0.0
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: "linux/amd64,linux/arm64"
-          #attests: type=sbom,generator=docker/scout-sbom-indexer:1
-          sbom: true
-          provenance: true
-          #cache-from: type=gha
-          #cache-to: type=gha,mode=max
-          
+          attests: type=sbom,generator=docker/scout-sbom-indexer:1
+          provenance: true       
+
+      - name: Secret Scanning
+        id: trivy-secret-scanning
+        uses: aquasecurity/trivy-action@v0.19.0
+        with:
+          image-ref: ${{ steps.meta.outputs.tags }}
+          format: json
+          output: secret-scanning.json
+          scanners: secret

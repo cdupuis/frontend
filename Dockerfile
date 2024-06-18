@@ -1,4 +1,4 @@
-FROM alpine:3.14@sha256:eb3e4e175ba6d212ba1d6e04fc0782916c08e1c9d7b45892e9796141b1d379ae
+FROM alpine:3.20@sha256:0a4eaa0eecf5f8c050e5bba433f58c052be7587ee8af3e8b3910ef9ab5fbe9f5
 
 ENV BLUEBIRD_WARNINGS=0 \
   NODE_ENV=production \
@@ -7,7 +7,7 @@ ENV BLUEBIRD_WARNINGS=0 \
   SUPPRESS_NO_CONFIG_WARNING=true
 
 RUN apk add --no-cache \
-  nodejs gdbm curl
+  nodejs curl openssl
 
 COPY package.json ./
 
@@ -15,8 +15,8 @@ RUN  apk add --no-cache npm && npm i --no-optional && npm cache clean --force &&
  
 COPY . /app
 
-#RUN adduser -D appuser
-#USER appuser
+RUN adduser -D appuser
+USER appuser
 
 CMD ["node","/app/app.js"]
 

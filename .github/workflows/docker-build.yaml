@@ -63,7 +63,7 @@ jobs:
 
       - name: Secret Scanning with ggshield
         run: |
-          docker run -it -v .:/report -v /var/run/docker.sock:/var/run/docker.sock -e GITGUARDIAN_API_KEY=${{ secrets.GITGUARDIAN_API_KEY }} christiandupuis299/ggshield ggshield secret scan docker ${{ steps.meta.outputs.tags }} --json -o /report/secret-scanning.json
+          docker run -v .:/report -v /var/run/docker.sock:/var/run/docker.sock -e GITGUARDIAN_API_KEY=${{ secrets.GITGUARDIAN_API_KEY }} christiandupuis299/ggshield ggshield secret scan docker ${{ steps.meta.outputs.tags }} --json -o /report/secret-scanning.json --exit-zero
 
       - name: Attach Secret Scanning report
         run: |

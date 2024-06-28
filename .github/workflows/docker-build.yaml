@@ -49,7 +49,9 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: "linux/amd64,linux/arm64"
-          attests: type=sbom,generator=docker/scout-sbom-indexer:1
+          provenance: true
+          sbom: true
+          #attests: type=sbom,generator=docker/scout-sbom-indexer:1
 
       - name: Secret Scanning with ggshield
         run: |

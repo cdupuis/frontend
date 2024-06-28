@@ -50,16 +50,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: "linux/amd64,linux/arm64"
           attests: type=sbom,generator=docker/scout-sbom-indexer:1
-          provenance: true       
-
-      - name: Secret Scanning
-        id: trivy-secret-scanning
-        uses: aquasecurity/trivy-action@0.19.0
-        with:
-          image-ref: ${{ steps.meta.outputs.tags }}
-          format: json
-          output: secret-scanning.json
-          scanners: secret
 
       - name: Secret Scanning with ggshield
         run: |
@@ -69,6 +59,6 @@ jobs:
         run: |
           # curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s --
           # docker scout attestation add ${{ steps.meta.outputs.tags }} --file secret-scanning.json --predicate-type https://aquasecurity.com/trivy/v2
-          docker run -v .:/app -e DOCKER_SCOUT_HUB_USER=christiandupuis299 -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=christiandupuis299 -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:149a075 attest add ${{ steps.meta.outputs.tags }} --file /app/secret-scanning.json --predicate-type https://aquasecurity.com/trivy/v2 --referrer --org christiandupuis299
+          docker run -v .:/report -e DOCKER_SCOUT_HUB_USER=christiandupuis299 -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=christiandupuis299 -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:149a075 attest add ${{ steps.meta.outputs.tags }} --file /report/secret-scanning.json --predicate-type https://gitguardian.com/ggshield/v1 --referrer --org christiandupuis299
 
           

@@ -57,7 +57,7 @@ jobs:
         uses: docker/scout-action@v1
         with:
           command: cves
-          image: local://${{ steps.meta.outputs.tags }}
+          image: ${{ steps.meta.outputs.tags }}
           only-severities: critical,high 
 
       #- name: Secret Scanning with ggshield

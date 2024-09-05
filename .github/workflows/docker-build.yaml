@@ -60,14 +60,13 @@ jobs:
           image: ${{ steps.meta.outputs.tags }}
           only-severities: critical,high 
 
-      #- name: Secret Scanning with ggshield
-      #  run: |
-      #    docker run -v .:/report -v /var/run/docker.sock:/var/run/docker.sock -e GITGUARDIAN_API_KEY=${{ secrets.GITGUARDIAN_API_KEY }} christiandupuis299/ggshield ggshield secret scan docker ${{ steps.meta.outputs.tags }} --json -o /report/secret-scanning.json --exit-zero
+      - name: Create secret scanning report
+        run: |
+          docker run -v .:/report -e DOCKER_SCOUT_HUB_USER=cdupuis -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=cdupuis -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:a052b4e sbom ${{ steps.meta.outputs.tags }} --include-secrets --output /report/scout.sbom.json
+          cat scout.sbom.json | jq .secrets > scout.secrets.json
 
-      #- name: Attach Secret Scanning report
-      #  run: |
-      #    # curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s --
-      #    # docker scout attestation add ${{ steps.meta.outputs.tags }} --file secret-scanning.json --predicate-type https://aquasecurity.com/trivy/v2
-      #    docker run -v .:/report -e DOCKER_SCOUT_HUB_USER=christiandupuis299 -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=christiandupuis299 -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:149a075 attest add ${{ steps.meta.outputs.tags }} --file /report/secret-scanning.json --predicate-type https://gitguardian.com/ggshield/v1 --referrer --org christiandupuis299
+      - name: Attach secret scanning report
+        run: |
+          docker run -v .:/report -e DOCKER_SCOUT_HUB_USER=cdupuis -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=cdupuis -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:149a075 attest add ${{ steps.meta.outputs.tags }} --file /report/scout.secrets.json --predicate-type https://scout.docker.com/secrets/v0.1 --referrer --org cdupuis
 
           

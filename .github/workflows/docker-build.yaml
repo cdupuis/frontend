@@ -62,6 +62,7 @@ jobs:
 
       - name: Create secret scanning report
         run: |
+          umask 0000
           docker run -v $(pwd):/report -e DOCKER_SCOUT_HUB_USER=cdupuis -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=cdupuis -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:a052b4e sbom ${{ steps.meta.outputs.tags }} --include-secrets --output /report/scout.sbom.json
           cat scout.sbom.json | jq .secrets > scout.secrets.json
 

@@ -62,11 +62,11 @@ jobs:
 
       - name: Create secret scanning report
         run: |
-          docker run -v .:/report -e DOCKER_SCOUT_HUB_USER=cdupuis -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=cdupuis -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:a052b4e sbom ${{ steps.meta.outputs.tags }} --include-secrets --output /report/scout.sbom.json
+          docker run -v $(pwd):/report -e DOCKER_SCOUT_HUB_USER=cdupuis -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=cdupuis -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:a052b4e sbom ${{ steps.meta.outputs.tags }} --include-secrets --output /report/scout.sbom.json
           cat scout.sbom.json | jq .secrets > scout.secrets.json
 
       - name: Attach secret scanning report
         run: |
-          docker run -v .:/report -e DOCKER_SCOUT_HUB_USER=cdupuis -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=cdupuis -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:149a075 attest add ${{ steps.meta.outputs.tags }} --file /report/scout.secrets.json --predicate-type https://scout.docker.com/secrets/v0.1 --referrer --org cdupuis
+          docker run -v $(pwd):/report -e DOCKER_SCOUT_HUB_USER=cdupuis -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=cdupuis -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:149a075 attest add ${{ steps.meta.outputs.tags }} --file /report/scout.secrets.json --predicate-type https://scout.docker.com/secrets/v0.1 --referrer --org cdupuis
 
           

@@ -51,7 +51,7 @@ jobs:
           platforms: "linux/amd64,linux/arm64"
           provenance: true
           #sbom: true
-          attests: type=sbom,generator=cdupuis/scout-sbom-indexer:local
+          attests: type=sbom,generator=docker/scout-sbom-indexer:8ccd22f
 
       - name: Scan image for CVEs
         uses: docker/scout-action@v1

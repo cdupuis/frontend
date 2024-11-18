@@ -41,7 +41,7 @@ jobs:
             com.docker.image.source.entrypoint=${{ env.DOCKERFILE_PATH }}
 
       - name: Build and push Docker image on push
-        id: build-and-push
+        id: build
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -70,6 +70,14 @@ jobs:
         run: |
           docker run -v $(pwd)/report:/report -e DOCKER_SCOUT_HUB_USER=cdupuis -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=cdupuis -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:149a075 attest add ${{ steps.meta.outputs.tags }} --file /report/scout.secrets.json --predicate-type https://scout.docker.com/secrets/v0.1 --referrer --org cdupuis    
 
+      - name: Output image
+        id: image
+        run: |
+          # NOTE: Set the image as an output because the `env` context is not
+          # available to the inputs of a reusable workflow call.
+          image_name="${{steps.meta.outputs.tags}}"
+          echo "image=$image_name" >> "$GITHUB_OUTPUT"
+
   provenance:
     needs: [build]
     permissions:
@@ -78,7 +86,7 @@ jobs:
       packages: write
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.0.0
     with:
-      image: ${{ needs.build.outputs.tags }}
+      image: ${{ needs.build.outputs.image }}
       # The image digest is used to prevent TOCTOU issues.
       # This is an output of the docker/build-push-action
       # See: https://github.com/slsa-framework/slsa-verifier#toctou-attacks

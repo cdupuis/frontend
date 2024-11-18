@@ -75,6 +75,7 @@ jobs:
     permissions:
       actions: read # for detecting the Github Actions environment.
       id-token: write # for creating OIDC tokens for signing.
+      packages: write
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.4.0
     with:
       image: ${{ needs.build.outputs.tags }}

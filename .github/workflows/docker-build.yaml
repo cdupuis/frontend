@@ -15,7 +15,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    outputs:
+      image: ${{ steps.image.outputs.image }}
+      digest: ${{ steps.build.outputs.digest }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

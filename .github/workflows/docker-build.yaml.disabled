@@ -80,19 +80,19 @@ jobs:
           image_name="${{steps.meta.outputs.tags}}"
           echo "image=$image_name" >> "$GITHUB_OUTPUT"
 
-  provenance:
-    needs: [build]
-    permissions:
-      actions: read # for detecting the Github Actions environment.
-      id-token: write # for creating OIDC tokens for signing.
-      packages: write
-    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.0.0
-    with:
-      image: ${{ needs.build.outputs.image }}
-      # The image digest is used to prevent TOCTOU issues.
-      # This is an output of the docker/build-push-action
-      # See: https://github.com/slsa-framework/slsa-verifier#toctou-attacks
-      digest: ${{ needs.build.outputs.digest }}
-      registry-username: cdupuis
-    secrets:
-      registry-password: ${{ secrets.HUB_PAT }}          
+  #provenance:
+  #  needs: [build]
+  #  permissions:
+  #    actions: read # for detecting the Github Actions environment.
+  #    id-token: write # for creating OIDC tokens for signing.
+  #    packages: write
+  #  uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.0.0
+  #  with:
+  #    image: ${{ needs.build.outputs.image }}
+  #    # The image digest is used to prevent TOCTOU issues.
+  #    # This is an output of the docker/build-push-action
+  #    # See: https://github.com/slsa-framework/slsa-verifier#toctou-attacks
+  #    digest: ${{ needs.build.outputs.digest }}
+  #    registry-username: cdupuis
+  #  secrets:
+  #    registry-password: ${{ secrets.HUB_PAT }}          

@@ -77,7 +77,7 @@ jobs:
 
       - name: Attach secret scanning report
         run: |
-          docker run -v $(pwd)/report:/report -e DOCKER_SCOUT_HUB_USER=cdupuis -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=${{ github.actor }} -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.GITHUB_TOKEN }} docker/scout-cli:149a075 attest add ${{ steps.meta.outputs.tags }} --file /report/scout.secrets.json --predicate-type https://scout.docker.com/secrets/v0.1 --referrer --org cdupuis    
+          docker run -v $(pwd)/report:/report -e DOCKER_SCOUT_HUB_USER=cdupuis -e DOCKER_SCOUT_HUB_PASSWORD=${{ secrets.HUB_PAT }} -e DOCKER_SCOUT_REGISTRY_USER=${{ github.actor }} -e DOCKER_SCOUT_REGISTRY_PASSWORD=${{ secrets.GITHUB_TOKEN }} -e DOCKER_SCOUT_REGISTRY_WRITE_USER=cdupuis -e DOCKER_SCOUT_REGISTRY_WRITE_PASSWORD=${{ secrets.HUB_PAT }} docker/scout-cli:149a075 attest add ${{ steps.meta.outputs.tags }} --file /report/scout.secrets.json --predicate-type https://scout.docker.com/secrets/v0.1 --referrer --org cdupuis    
 
       - name: Output image
         id: image

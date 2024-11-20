@@ -67,7 +67,14 @@ jobs:
         with:
           command: cves
           image: ${{ steps.meta.outputs.tags }}
-          only-severities: critical,high 
+          sarif-file: sarif.output.json
+      
+      - name: Upload SARIF result
+        id: upload-sarif
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: sarif.output.json
 
       - name: Create secret scanning report
         run: |

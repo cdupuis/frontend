@@ -90,7 +90,7 @@ jobs:
           command: attest
           image: ${{ steps.meta.outputs.tags }}
           file: secrets.json
-          predicate_type: https://openvex.dev/ns/v0.2.0
+          predicate-type: https://openvex.dev/ns/v0.2.0
           referrer: true
 
 #      - name: Create secret scanning report

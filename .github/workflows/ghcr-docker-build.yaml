@@ -92,6 +92,8 @@ jobs:
           file: secrets.json
           predicate-type: https://scout.docker.com/secrets/v0.1
           referrer: true
+          registry-write-user: cdupuis
+          registry-write-password: ${{ secrets.HUB_PAT }}
 
 #      - name: Create secret scanning report
 #        run: |

@@ -62,27 +62,31 @@ jobs:
           username: cdupuis
           password: ${{ secrets.HUB_PAT }}
 
-      - name: Scan image for CVEs
-        uses: docker/scout-action@v1
-        with:
-          command: cves
-          image: ${{ steps.meta.outputs.tags }}
-          sarif-file: sarif.output.json
+#      - name: Scan image for CVEs
+#        uses: docker/scout-action@v1
+#        with:
+#          command: cves
+#          image: ${{ steps.meta.outputs.tags }}
+#          sarif-file: sarif.output.json
       
-      - name: Upload SARIF result
-        id: upload-sarif
-        if: ${{ github.event_name != 'pull_request_target' }}
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: sarif.output.json
+#      - name: Upload SARIF result
+#        id: upload-sarif
+#        if: ${{ github.event_name != 'pull_request_target' }}
+#        uses: github/codeql-action/upload-sarif@v2
+#        with:
+#          sarif_file: sarif.output.json
 
       - name: Scan image for Secrets
         uses: docker/scout-action@v1
         with:
           command: sbom
           image: ${{ steps.meta.outputs.tags }}
-          output: secrets.json
+          output: sbom.scout.json
           secrets: true
+
+      - name: Create secret scanning report
+        run: |
+          cat sbom.scout.json | jq .secrets > secrets.json          
 
       - name: Upload secrets report
         uses: docker/scout-action@v1

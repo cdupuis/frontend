@@ -96,6 +96,8 @@ jobs:
           file: secrets.json
           predicate-type: https://scout.docker.com/secrets/v0.1
           referrer: true
+          registry-user: ${{ github.actor }}
+          registry-password: ${{ secrets.GITHUB_TOKEN }}
           registry-write-user: cdupuis
           registry-write-password: ${{ secrets.HUB_PAT }}
 

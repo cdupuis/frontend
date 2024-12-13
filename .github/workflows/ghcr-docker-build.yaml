@@ -87,7 +87,7 @@ jobs:
       - name: Upload secrets report
         uses: docker/scout-action@v1
         with:
-          command: attest
+          command: attestation-add
           image: ${{ steps.meta.outputs.tags }}
           file: secrets.json
           predicate-type: https://openvex.dev/ns/v0.2.0

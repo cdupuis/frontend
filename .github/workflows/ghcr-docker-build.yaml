@@ -84,6 +84,15 @@ jobs:
           output: secrets.json
           secrets: true
 
+      - name: Upload secrets report
+        uses: docker/scout-action@v1
+        with:
+          command: attest
+          image: ${{ steps.meta.outputs.tags }}
+          file: secrets.json
+          predicate_type: https://openvex.dev/ns/v0.2.0
+          referrer: true
+
 #      - name: Create secret scanning report
 #        run: |
 #          mkdir -m 777 $(pwd)/report

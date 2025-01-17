@@ -1,4 +1,4 @@
-name: Release docker image
+name: Update clamav db
 
 on:
   push:

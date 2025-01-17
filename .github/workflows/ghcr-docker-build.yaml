@@ -34,7 +34,7 @@ jobs:
 
       - name: Run clamav scan
         run: |
-          docker run --rm -v ./databases:/var/lib/clamav -v .:/scandir -v ./logs:/logs clamav/clamav:stable clamscan /scandir --log /logs/clamav.log --recursive -a -v
+          docker run --rm -v ./databases:/var/lib/clamav -v .:/scandir -v ./logs:/logs clamav/clamav:stable clamscan /scandir --log /logs/clamav.log --exclude-dir /scandir/databases --recursive -a -v
   
       - name: Log into registry
         uses: docker/login-action@v3

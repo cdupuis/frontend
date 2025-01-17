@@ -1,13 +1,10 @@
 name: Release docker image
 
 on:
+  push:
+    branches: 
+       - main
   workflow_dispatch:
-    inputs:
-      push:
-        description: "Push the image"
-        required: true
-        type: boolean
-
 
 jobs:
   update-clamav-db:

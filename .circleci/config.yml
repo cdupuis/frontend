@@ -13,6 +13,7 @@ jobs:
       - run:
           name: Build Docker image
           command: |
+            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
             docker buildx create --use
             docker buildx build --platform linux/amd64 -t $DOCKERHUB_USERNAME/frontend:circleci . --push --sbom=1 --provenance=1
         

@@ -1,36 +1,17 @@
-# This config was automatically generated from your source code
-# Stacks detected: cicd:github-actions:.github/workflows,deps:node:.
 version: 2.1
-orbs:
-  node: circleci/node@5
 jobs:
-  test-node:
-    # Install node dependencies and run tests
-    executor: node/default
+  build:
+    docker:
+      - image: cimg/base:2025.01
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
-      - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: npm install
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Run tests
-          command: npm test --passWithNoTests
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
-    steps:
-      # Replace this with steps to deploy to users
-      - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
-      - run:
-          name: found github actions config
-          command: ':'
-workflows:
-  build-and-test:
-    jobs:
-      - test-node
-    # - deploy:
-    #     requires:
-    #       - test-node
+          name: Build Docker image
+          command: |
+            docker buildx build --platform linux/amd64 -t $DOCKERHUB_USERNAME/frontend:circleci . --push --sbom=1 --provenance=1
+        

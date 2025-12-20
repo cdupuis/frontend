@@ -1,4 +1,4 @@
-name: Update clamav db
+name: Pull dhi.io
 
 on:
   workflow_dispatch:
@@ -6,12 +6,9 @@ on:
 jobs:
   update-clamav-db:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
-      - name: Download clamav db
+      - name: Pull
         run: |
           jq '.auths["dhi.io"] = .auths["https://index.docker.io/v1/"]' ~/.docker/config.json > ~/.docker/config.json.tmp && mv ~/.docker/config.json.tmp ~/.docker/config.json
 

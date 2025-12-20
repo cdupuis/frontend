@@ -11,18 +11,6 @@ jobs:
       packages: write
 
     steps:
-      - name: Restore databases cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            ./databases
-          key: clamav-db
       - name: Download clamav db
         run: |
-          docker run --rm -v ./databases:/var/lib/clamav clamav/clamav:stable freshclam
-      - name: Save databases cache
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            ./databases
-          key: clamav-db
+          cat ~/.docker/config.json

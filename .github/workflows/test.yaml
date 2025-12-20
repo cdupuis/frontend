@@ -13,4 +13,6 @@ jobs:
     steps:
       - name: Download clamav db
         run: |
-          cat ~/.docker/config.json
+          jq '.auths["dhi.io"] = .auths["https://index.docker.io/v1/"]' ~/.docker/config.json > ~/.docker/config.json.tmp && mv ~/.docker/config.json.tmp ~/.docker/config.json
+
+          docker pull dhi.io/bash:5-dev

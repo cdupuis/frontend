@@ -1,7 +1,7 @@
 #syntax=docker/dockerfile:1
 
 #=== Build stage: Install dependencies ===#
-FROM dhi.io/node:24-alpine3.22-dev AS builder
+FROM dhi.io/node:24-dev AS builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY package.json ./
 RUN npm i --no-optional && npm cache clean --force
 
 #=== Final stage: Create minimal runtime image ===#
-FROM dhi.io/node:24-alpine3.22
+FROM dhi.io/node:24
 
 ENV BLUEBIRD_WARNINGS=0 \
   NODE_ENV=production \

@@ -1,0 +1,16 @@
+version: 2
+registries:
+  dhi:
+    type: docker-registry
+    url: dhi.io
+    username: cdupuis
+    password: ${{secrets.HUB_PAT}}
+
+updates:
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    registries:
+      - dhi
+    open-pull-requests-limit: 10

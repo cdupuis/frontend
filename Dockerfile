@@ -24,6 +24,8 @@ COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 
 COPY --chown=node:node . /app
 
+
+
 CMD ["node","/app/app.js"]
 
 EXPOSE 3000

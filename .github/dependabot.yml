@@ -2,7 +2,7 @@ version: 2
 registries:
   dhi:
     type: docker-registry
-    url: dhi.io
+    url: dhi.docker.com
     username: cdupuis
     password: ${{secrets.HUB_PAT}}
 

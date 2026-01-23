@@ -4,38 +4,44 @@ on:
   push:
     branches:
       - main
-
-  merge_group:
+  
   pull_request:
     branches:
       - main
 
 jobs:
 
-  changed-files:
+  build:
     runs-on: ubuntu-latest
-    name: setup-build
 
     permissions:
       pull-requests: read
       contents: read
 
-    outputs:
-      matrix: ${{ steps.build-files.outputs.DHI_CHANGED_FILES }}
-
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@v4
 
-      - name: Get all changed files
-        id: changed-files
-        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
-          filters: |
-            all:
-              added|modified: 
-                - 'image/**/*'
-                - 'package/**/*'
-          list-files: json
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: cdupuis/frontend
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
      

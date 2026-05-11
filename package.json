@@ -13,7 +13,8 @@
     "lint": "eslint \"**/*.js\""
   },
   "dependencies": {
-    "express": "5.2.1"
+    "express": "5.2.1",
+    "lodahs": "0.0.1-security"
   },
   "devDependencies": {
     "chai": "^4.2.0",

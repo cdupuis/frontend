@@ -3,6 +3,15 @@
 #=== Build stage: Install dependencies ===#
 FROM node:25 AS builder
 
+COPY ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+
+ENV NODE_USE_ENV_PROXY=1 \
+  NO_PROXY=localhost,127.0.0.1,::1,gateway.docker.internal \
+  HTTPS_PROXY=http://gateway.docker.internal:3128 \
+  HTTP_PROXY=http://gateway.docker.internal:3128 \
+  NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt \
+  NODE_USE_ENV_PROXY=1
+
 WORKDIR /app
 
 COPY package.json ./

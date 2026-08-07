@@ -1,7 +1,7 @@
 #syntax=docker/dockerfile:1
 
 #=== Build stage: Install dependencies ===#
-FROM dhi.io/node:25-debian13-sfw-dev AS builder
+FROM dhi.io/node:26-debian13-sfw-dev AS builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY package.json ./
 RUN npm i --no-optional && npm cache clean --force
 
 #=== Final stage: Create minimal runtime image ===#
-FROM dhi.io/node:25-debian13
+FROM dhi.io/node:26-debian13
 
 ENV BLUEBIRD_WARNINGS=0 \
   NODE_ENV=production \

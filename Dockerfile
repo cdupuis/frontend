@@ -3,7 +3,7 @@
 #=== Build stage: Install dependencies ===#
 FROM dhi.io/node:25-dev AS builder
 
-COPY ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+# COPY ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
 ENV NODE_USE_ENV_PROXY=1 \
   NO_PROXY=localhost,127.0.0.1,::1,gateway.docker.internal \
